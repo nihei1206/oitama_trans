@@ -167,7 +167,7 @@ def importArrayfromCSV_then_do() -> str:
                 
         header = ['oitama','result','answer','fScore','bleuScore']
         dt_now = datetime.datetime.now()
-        with open('./outputCSV/OitamaOutput'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
+        with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
  
             writer = csv.writer(f)
             writer.writerow(header)

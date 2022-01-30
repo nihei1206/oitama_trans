@@ -18,7 +18,10 @@ import datetime
 from tqdm import tqdm
 import numpy as np
 
-def sudachionlyWakachi(text) -> list:
+def sudachionlyWakachi(text:str) -> list:
+    '''
+    sudachi_dictだけでの分割
+    '''
     hyokaArrayonly = []
     mode = tokenizer.Tokenizer.SplitMode.A
     config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
@@ -28,47 +31,23 @@ def sudachionlyWakachi(text) -> list:
         hyokaArrayonly.append(m.surface())
     return hyokaArrayonly
 
-def sudachiOitamaWakachi(text) -> list:
+def sudachiOitamaWakachi(text:str) -> list:
     '''
     sudachi_dictとOitama_dictでの分割
     '''
-    hyokaArray = []
+    outputArray = []
     mode = tokenizer.Tokenizer.SplitMode.A
-    # config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(dict="full").create()
+    config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
+    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
-        hyokaArray.append(m.surface())
-    return hyokaArray
-
-oitama = 'いだくてがまんさんにぇ'
-result_sudachi_dic = sudachionlyWakachi(oitama)
-result_sudachi_oitama_dic = sudachiOitamaWakachi(oitama)
-answerArray =['いだく','て','がまん','さん','にぇ']
-print(result_sudachi_dic)
-print(result_sudachi_oitama_dic)
-print(answerArray)
-
-# result = ['いだい', 'がら', 'しっ', 'ぷ', 'だし', 'て','けん','にぇ','が']
-# resultはsudachi_dictとOitama_dictでの分割
-# answer = ['いだい', 'がら', 'しっぷ', 'だし', 'て', 'けんにぇ','が']
-# answerは人力分割
-# only_sudachi_dic = ['いだい','がら','しっ','ぷ','だし','て','けん','に','ぇ','が']
-# only_sudachi_dicはsudachi_dictのみでの分割
-
-# print(answerArray)
-
-# result = ['今日','も','し','ない','とね']
-# answer = ['今日','もし','ない','と','ね']
-#足が痛くてそんなことできない
-#あしいだくてそげなごとさんにぇなー
-
-# んじゃらば、車いすさ移んぞ。
-# ['んじゃらば','、','車いす','さ','移ん','ぞ']
+        outputArray.append(m.surface())
+    return outputArray
 
 def hyoka(result:list,answer:list) -> list:
     '''
     fig.8-1:
+    return result,answer,precision,recall,Fscore
     '''
     correct = 0
     result_index = 0
@@ -96,16 +75,19 @@ def hyoka(result:list,answer:list) -> list:
     precision = correct / len(result)
     recall = correct / len(answer)
 
-    if int(precision) and int(recall) == 0:
-        return None
+    if precision == 0 and recall == 0:
+        return result,answer,precision ,recall ,None
     else:
         Fscore = (2 * precision * recall) / ( precision + recall )
-        return precision ,recall ,Fscore
+        # return result,answer,precision,recall,Fscore
+        return result,answer,precision ,recall ,Fscore
 
-    # return result,answer,precision,recall,Fscore
-
-print(hyoka(result_sudachi_dic,answerArray))
-print(hyoka(result_sudachi_oitama_dic,answerArray))
+def canmaBunkatsu(text:str) -> list:
+    '''
+    ,分割
+    '''
+    outputArray = text.split(',')
+    return outputArray
 
 def importArrayfromCSV_then_do() -> str:
     '''
@@ -118,10 +100,28 @@ def importArrayfromCSV_then_do() -> str:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
         outputArray = []
+        for i in tqdm(range(1,len(inputArray))):
+            np.pi*np.pi
+            outputArray.append(hyoka(sudachiOitamaWakachi(inputArray[i][1]),canmaBunkatsu(inputArray[i][2])))
 
         header = ['result','answer','seido','saigen','Fscore']
         dt_now = datetime.datetime.now()
-        with open('OitamaOutput'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
+        with open('./outputCSV/Bunkatsu_OitamaDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
+ 
+            writer = csv.writer(f)
+            writer.writerow(header)
+            writer.writerows(outputArray)
+
+        f.close()
+        
+        outputArray = []
+        for i in tqdm(range(1,len(inputArray))):
+            np.pi*np.pi
+            outputArray.append(hyoka(sudachionlyWakachi(inputArray[i][1]),canmaBunkatsu(inputArray[i][2])))
+
+        header = ['result','answer','seido','saigen','Fscore']
+        dt_now = datetime.datetime.now()
+        with open('./outputCSV/Bunkatsu_sudachiDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
  
             writer = csv.writer(f)
             writer.writerow(header)
@@ -132,3 +132,4 @@ def importArrayfromCSV_then_do() -> str:
 
         return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
+importArrayfromCSV_then_do()
