@@ -158,7 +158,7 @@ def importArrayfromCSV_then_do() -> str:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
         outputArray = []
-        for i in tqdm(range(len(inputArray))):
+        for i in tqdm(range(1,len(inputArray))):
             np.pi*np.pi
             # if not (inputArray[i][0] and inputArray[i][1]):
             #     outputArray.append(['No.'+str(i+1)+' is skeped'])
