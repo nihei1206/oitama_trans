@@ -118,13 +118,7 @@ def importArrayfromCSV_then_do() -> str:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
         outputArray = []
-        # for i in tqdm(range(len(inputArray))):
-        #     np.pi*np.pi
-        #     if not (inputArray[i][0] and inputArray[i][1]):
-        #         outputArray.append(['No.'+str(i+1)+' is skeped'])
-        #     else:
-        #         outputArray.append(translate_hyoka(inputArray[i][1],inputArray[i][0]))
-                
+
         header = ['result','answer','seido','saigen','Fscore']
         dt_now = datetime.datetime.now()
         with open('OitamaOutput'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
