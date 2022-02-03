@@ -29,7 +29,7 @@ mode = tokenizer.Tokenizer.SplitMode.C
 def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
     '''
     #入力された文章を,SudachiDictとUserDictで翻訳
-    #今後ここに高度な例外処理を組み込みたい
+    #今後ここの中の任意の場所に高度な例外処理を組み込みたい
     #splitMode == C
     '''
     mode = tokenizer.Tokenizer.SplitMode.C
@@ -41,7 +41,43 @@ def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
         else:
             combinedExchangeHogen.append(m.surface())
     combinedExchangeHogentext = "".join(combinedExchangeHogen)
-    return combinedExchangeHogentext
+
+    #欠落の[が]補完
+    translatedOutput = addDropedWord(combinedExchangeHogentext)
+
+    return translatedOutput
+
+def addDropedWord(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
+    '''
+    欠落語補完機能
+    名詞,形容詞が連続した場合,間に「が」を入れることで「が」の欠落を補完
+    名詞,動詞が連続した場合,間に「に」を入れることで「に(さ)」の欠落を補完
+    仮説 ->「さ」助詞を補完したらなんでもうまく行くのではないか
+
+    作戦:頻繁に使われる動詞と形容詞をすべて抽出し、直前につくであろう格助詞情報を付与する。
+    配列の中に、surface,partOfSpeech,seikika情報を格納し、条件マッチで任意の格助詞に置換
+    分割->sudachiDict正規化->直前に格助詞を配置-> 
+    user_dict(格助詞)に参照してreturn(は、へ、を、が、に、null)の関数を作る必要がありそう?
+    key,value置換で良くない？
+    '''
+    mode = tokenizer.Tokenizer.SplitMode.C
+    tokens = tokenizer_obj.tokenize(text,mode)
+    wordPartofspeech = []
+    wordCombine = []
+    for m in tokens:
+        wordPartofspeech.append([m.surface(),m.part_of_speech()[0]])            
+
+    for j in range(len(wordPartofspeech)-1):
+        if wordPartofspeech[j][1] == '名詞' or wordPartofspeech[j][1] == '代名詞':
+            if wordPartofspeech[j+1][1] == '形容詞' or wordPartofspeech[j+1][1] == '動詞':
+                wordPartofspeech.insert(j+1,[m.part_of_speech()[4],'助詞'])
+
+    for k in range(len(wordPartofspeech)):
+        wordCombine.append(wordPartofspeech[k][0])
+    wordOutput = "".join(wordCombine)
+    return wordOutput
+
+print(addDropedWord('何があったら、このボタン押して呼ばってけろ'))
 
 def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     '''
@@ -52,7 +88,7 @@ def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     mode = tokenizer.Tokenizer.SplitMode.A
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
-        hyokaArray.append(m.surface()+str(m.part_of_speech()))
+        hyokaArray.append(m.surface()+str(m.part_of_speech()[0]))
     return hyokaArray
 
 def wakachiWrite(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
@@ -178,7 +214,5 @@ def importArrayfromCSV_then_do() -> str:
 
         return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
-importArrayfromCSV_then_do()
-
-
+# importArrayfromCSV_then_do()
 
