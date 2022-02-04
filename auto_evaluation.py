@@ -16,6 +16,7 @@ import pprint
 import datetime
 from tqdm import tqdm
 import numpy as np
+import random
 
 ### Initialized Takenizer ### 
 # トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
@@ -47,7 +48,7 @@ def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
 
     return translatedOutput
 
-def addDropedWord(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
+def addDropedWord(text:str) -> str:
     '''
     欠落語補完機能
     名詞,形容詞が連続した場合,間に「が」を入れることで「が」の欠落を補完
@@ -64,20 +65,25 @@ def addDropedWord(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
     tokens = tokenizer_obj.tokenize(text,mode)
     wordPartofspeech = []
     wordCombine = []
+    kakujoshi_dict = {'に':1,'へ':1,'が':2,'を':3}
+    candidates = [*kakujoshi_dict]
+    weights = [*kakujoshi_dict.values()]
+    randomed_kakujoshi = random.choices(candidates, weights=weights)[0]
     for m in tokens:
-        wordPartofspeech.append([m.surface(),m.part_of_speech()[0]])            
+        wordPartofspeech.append([m.surface(),m.part_of_speech()[0]])        
 
     for j in range(len(wordPartofspeech)-1):
         if wordPartofspeech[j][1] == '名詞' or wordPartofspeech[j][1] == '代名詞':
-            if wordPartofspeech[j+1][1] == '形容詞' or wordPartofspeech[j+1][1] == '動詞':
-                wordPartofspeech.insert(j+1,[m.part_of_speech()[4],'助詞'])
+            if wordPartofspeech[j+1][1] == '動詞' or wordPartofspeech[j+1][1] == '形容詞':
+                wordPartofspeech.insert(j+1,[randomed_kakujoshi,'助詞',''])
 
     for k in range(len(wordPartofspeech)):
         wordCombine.append(wordPartofspeech[k][0])
     wordOutput = "".join(wordCombine)
+    print(wordPartofspeech)
     return wordOutput
 
-print(addDropedWord('何があったら、このボタン押して呼ばってけろ'))
+print(addDropedWord('喉乾いだー'))
 
 def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     '''
