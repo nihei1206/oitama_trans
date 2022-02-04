@@ -88,7 +88,7 @@ def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     mode = tokenizer.Tokenizer.SplitMode.A
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
-        hyokaArray.append(m.surface()+str(m.part_of_speech()[0]))
+        hyokaArray.append(m.surface()+str(m.part_of_speech()))
     return hyokaArray
 
 def wakachiWrite(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
