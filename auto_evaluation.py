@@ -78,7 +78,6 @@ def addDropedWord(text:str) -> str:
     for k in range(len(wordPartofspeech)):
         wordCombine.append(wordPartofspeech[k][0])
     wordOutput = "".join(wordCombine)
-    print(wordPartofspeech)
     return wordOutput
 
 def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
@@ -216,5 +215,5 @@ def importArrayfromCSV_then_do() -> str:
 
         return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
-# importArrayfromCSV_then_do()
+importArrayfromCSV_then_do()
 
