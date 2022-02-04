@@ -43,7 +43,7 @@ def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
             combinedExchangeHogen.append(m.surface())
     combinedExchangeHogentext = "".join(combinedExchangeHogen)
 
-    #欠落の[が]補完
+    #欠落の格助詞補完
     translatedOutput = addDropedWord(combinedExchangeHogentext)
 
     return translatedOutput
@@ -54,18 +54,16 @@ def addDropedWord(text:str) -> str:
     名詞,形容詞が連続した場合,間に「が」を入れることで「が」の欠落を補完
     名詞,動詞が連続した場合,間に「に」を入れることで「に(さ)」の欠落を補完
     仮説 ->「さ」助詞を補完したらなんでもうまく行くのではないか
-
-    作戦:頻繁に使われる動詞と形容詞をすべて抽出し、直前につくであろう格助詞情報を付与する。
-    配列の中に、surface,partOfSpeech,seikika情報を格納し、条件マッチで任意の格助詞に置換
-    分割->sudachiDict正規化->直前に格助詞を配置-> 
-    user_dict(格助詞)に参照してreturn(は、へ、を、が、に、null)の関数を作る必要がありそう?
-    key,value置換で良くない？
+    口語文書の解析精度向上のための 助詞落ち推定および補完 ...の論文より割合を引用
+    default = {'が':15.2,'を':16.7,'に':0.7,'で':1.4,'の':1.5,'は':31.5,'と':33.0}
+    置賜カスタマイズ(「山形県のことば」より、省略される助詞と明記されているもののみを実行)
+    yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53}s
     '''
     mode = tokenizer.Tokenizer.SplitMode.C
     tokens = tokenizer_obj.tokenize(text,mode)
     wordPartofspeech = []
     wordCombine = []
-    kakujoshi_dict = {'に':1,'へ':1,'が':2,'を':3}
+    kakujoshi_dict = {'が':23.42,'を':25.73,'の':2.31,'は':48.53}
     candidates = [*kakujoshi_dict]
     weights = [*kakujoshi_dict.values()]
     randomed_kakujoshi = random.choices(candidates, weights=weights)[0]
@@ -82,8 +80,6 @@ def addDropedWord(text:str) -> str:
     wordOutput = "".join(wordCombine)
     print(wordPartofspeech)
     return wordOutput
-
-print(addDropedWord('喉乾いだー'))
 
 def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     '''
