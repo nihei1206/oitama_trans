@@ -48,6 +48,10 @@ def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
 
     return translatedOutput
 
+def noukinTrans(text:str) -> str:
+    
+    return
+
 def addDropedWord(text:str) -> str:
     '''
     欠落語補完機能
