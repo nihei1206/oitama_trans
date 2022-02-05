@@ -132,4 +132,5 @@ def importArrayfromCSV_then_do() -> str:
 
         return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
-importArrayfromCSV_then_do()
+if __name__ == '__main__':
+    importArrayfromCSV_then_do()

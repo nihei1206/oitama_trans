@@ -16,7 +16,10 @@ import pprint
 import datetime
 from tqdm import tqdm
 import numpy as np
+import numpy
 import random
+import statistics
+from statistics import mean
 
 ### Initialized Takenizer ### 
 # トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
@@ -56,8 +59,6 @@ def noukinTrans(text:str) -> str:
     '''
 
     return
-
-
 
 def addDropedWord(text:str) -> str:
     '''
@@ -192,10 +193,20 @@ def translate_hyoka(oitama:str, answer:str) -> list:
     if bleuScore == 0:
         bleuScore = None
     # input = (oitama:str , answer:str)
+
     return [oitama,result,answer,fScore,bleuScore]
 
+def manytimeFscore(text1:str,text2:str) -> float:
+    outputarray = []
+    average = 0.0
+    for i in range(10):
+        if not translate_hyoka(text1,text2)[3] == None:
+            outputarray.append(translate_hyoka(text1,text2)[3])
+    if not all(val is None for val in outputarray):
+        average = mean(outputarray)
+    return average
 
-def importArrayfromCSV_then_do() -> str:
+def importArrayfromCSV_then_do():
     '''
     #csvのimportからcsvのoutputまでやりたい処理をすべて詰め込みました
     #実行時間の確認もできます
@@ -208,12 +219,12 @@ def importArrayfromCSV_then_do() -> str:
         outputArray = []
         for i in tqdm(range(1,len(inputArray))):
             np.pi*np.pi
-            # if not (inputArray[i][0] and inputArray[i][1]):
-            #     outputArray.append(['No.'+str(i+1)+' is skeped'])
-            # else:
-            outputArray.append(translate_hyoka(inputArray[i][1],inputArray[i][0]))
-                
-        header = ['oitama','result','answer','fScore','bleuScore']
+            adMF =  translate_hyoka(inputArray[i][1],inputArray[i][0])
+            adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0]))
+            outputArray.append(adMF)
+        # print(outputArray[1])
+
+        header = ['oitama','result','answer','fScore','bleuscore','fcore-hokan']
         dt_now = datetime.datetime.now()
         with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
  
@@ -226,5 +237,8 @@ def importArrayfromCSV_then_do() -> str:
 
         return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
-importArrayfromCSV_then_do()
+
+if __name__ == '__main__':
+    importArrayfromCSV_then_do()
+    # print(type(manytimeFscore('あの人、何をしているの','あいづ、何しったなや')))
 
