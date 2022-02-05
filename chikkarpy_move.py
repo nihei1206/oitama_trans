@@ -26,7 +26,7 @@ config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json
 #ユーザー辞書の使用を宣言
 mode = tokenizer.Tokenizer.SplitMode.C
 tokenizer_obj = dictionary.Dictionary().create()
-morphs = tokenizer_obj.tokenize('おしょうしな')
+morphs = tokenizer_obj.tokenize('ありがとう')
 print(morphs[0].begin()),print('begin')
 print(morphs[0].end()),print('end')
 print(morphs[0].surface()),print('surface')

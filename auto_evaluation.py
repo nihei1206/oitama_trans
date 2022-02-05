@@ -49,7 +49,12 @@ def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
     return translatedOutput
 
 def noukinTrans(text:str) -> str:
-    
+    '''
+    脳筋翻訳機能
+    仮説 -> 標準語ではない単語の場合、その単語の濁音・促音の有無を全種類試行することで
+    いい感じになるのではないか。これが役に立つのはど田舎と都会の中間地点の方言地域に限られると思う
+    '''
+
     return
 
 def addDropedWord(text:str) -> str:
@@ -61,7 +66,7 @@ def addDropedWord(text:str) -> str:
     口語文書の解析精度向上のための 助詞落ち推定および補完 ...の論文より割合を引用
     default = {'が':15.2,'を':16.7,'に':0.7,'で':1.4,'の':1.5,'は':31.5,'と':33.0}
     置賜カスタマイズ(「山形県のことば」より、省略される助詞と明記されているもののみを実行)
-    yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53}s
+    yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53}
     '''
     mode = tokenizer.Tokenizer.SplitMode.C
     tokens = tokenizer_obj.tokenize(text,mode)
