@@ -1,3 +1,4 @@
+from enum import auto
 from turtle import update
 from sudachipy import tokenizer
 from sudachipy import dictionary
@@ -254,12 +255,13 @@ def by_option(array:list) -> int:
     return times
 
 def makeFig(array,data_name:str):
-    bins = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2]
-    plt.hist(array,bins)
+    bins = np.arange(0,1.1,0.01)
+    plt.hist(array,bins=bins)
     plt.title(str(data_name)+"'s function")
-    plt.savefig("./outputFig/"+str(data_name)+"'s function")
+    dt_now = datetime.datetime.now()
+    plt.savefig("./outputFig/"+str(data_name)+ dt_now.strftime('%y%m%d-%H%M%S'))
+    plt.show()
     return None
-
 
 def importArrayfromCSV_then_do(n_time):
     '''
@@ -282,9 +284,10 @@ def importArrayfromCSV_then_do(n_time):
 
             outputArray.append(adMF)
             # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option','option効果']
-        makeFig(numpy.array(outputArray).transpose(1, 0)[3],'fscore')
-        makeFig(numpy.array(outputArray).transpose(1, 0)[5],'fscore-option')
-        makeFig(numpy.array(outputArray).transpose(1, 0)[6],'option効果')
+        arr = numpy.array(outputArray).transpose(1, 0)
+        makeFig(arr[3],'fscore')
+        makeFig(arr[6],'fscore-option')
+        makeFig(arr[7],'option-effect')
 
         outputArray.append(average(outputArray))
 
@@ -305,5 +308,6 @@ def importArrayfromCSV_then_do(n_time):
 
 
 if __name__ == '__main__':
-    importArrayfromCSV_then_do(1)
+    # 引数は何回、格助詞ランダムを実行して平均を取るか
+    importArrayfromCSV_then_do(30)
 
