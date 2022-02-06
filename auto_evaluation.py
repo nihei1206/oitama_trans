@@ -229,6 +229,7 @@ def manytimeFscore(text1:str,text2:str,n:int) -> float:
         average = mean(averageArray)
     return average
 
+<<<<<<< HEAD
 def average(array:list) -> list:
     fscore = []
     fscore_op = []
@@ -252,6 +253,11 @@ def by_option(array:list) -> int:
         times = 0
     else: times = 1
     return times
+=======
+def kaiseki(array:list):
+    #test
+    return 
+>>>>>>> 37a1e92b788f9dfd9447d88579671c36f6ce27cf
 
 def importArrayfromCSV_then_do(n_time):
     '''
