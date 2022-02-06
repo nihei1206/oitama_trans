@@ -46,6 +46,23 @@ def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
         else:
             combinedExchangeHogen.append(m.surface())
     combinedExchangeHogentext = "".join(combinedExchangeHogen)
+    return combinedExchangeHogentext
+
+def translaterOitamaOption(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
+    '''
+    #入力された文章を,SudachiDictとUserDictで翻訳
+    #今後ここの中の任意の場所に高度な例外処理を組み込みたい
+    #splitMode == C
+    '''
+    mode = tokenizer.Tokenizer.SplitMode.C
+    combinedExchangeHogen = []
+    tokens = tokenizer_obj.tokenize(text,mode)
+    for m in tokens:
+        if m.part_of_speech()[5] == '方言':
+            combinedExchangeHogen.append(m.normalized_form())
+        else:
+            combinedExchangeHogen.append(m.surface())
+    combinedExchangeHogentext = "".join(combinedExchangeHogen)
 
     #欠落の格助詞補完
     translatedOutput = addDropedWord(combinedExchangeHogentext)
@@ -146,14 +163,20 @@ def list_difference(list1:list, list2:list) -> list:
             result.remove(value)
     return result
 
-def translate_hyoka(oitama:str, answer:str) -> list:
+def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
     '''
+    hyokaOption == 0 ->置換のみ手法
+    hyokaOption == 1 -> 脳筋Option(格助詞の確立的はめ込み)
     #return [answer:str,oitama:str,result:str,fScore:float,bleuScore:float]
     '''
     #置賜弁をここで標準語に翻訳
     config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create() 
-    result = translaterOitama(oitama,tokenizer_obj)
+    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
+    
+    if hyokaOption == 1:
+        result = translaterOitamaOption(oitama,tokenizer_obj)
+    else:
+        result = translaterOitama(oitama,tokenizer_obj)
 
     # 変換後なので,ここからuserDictの不使用 => sudachiDict(full)のみの使用を宣言
     # config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
@@ -180,7 +203,7 @@ def translate_hyoka(oitama:str, answer:str) -> list:
     # print("-- F score --")
     # print((2*seido*saigen)/(seido+saigen))
     if seido+saigen == 0:
-        fScore = None
+        fScore = 0
     else:
         fScore = (2*seido*saigen)/(seido+saigen)
 
@@ -197,24 +220,16 @@ def translate_hyoka(oitama:str, answer:str) -> list:
 
     return [oitama,result,answer,fScore,bleuScore]
 
-def manytimeFscore(text1:str,text2:str) -> float:
-    outputarray = []
+def manytimeFscore(text1:str,text2:str,n:int) -> float:
     average = 0
-    for i in range(20):
-        if not translate_hyoka(text1,text2)[3] == None:
-            hyokachi = translate_hyoka(text1,text2)[3]
-        
-            outputarray.append(hyokachi)
-    if not all(val is None for val in outputarray):
-        average = mean(outputarray)
-        # data = []
-        # y_data = outputarray
-        # plt.plot(data, y_data, marker="o")
-        # plt.savefig("graph.png")
-        # plt.show()
+    for i in range(1,n+1):
+        sum = 0
+        if not translate_hyoka(text1,text2,1)[3] == None:
+            sum += float(translate_hyoka(text1,text2,1)[3])
+        average = sum/n
     return average
 
-def importArrayfromCSV_then_do():
+def importArrayfromCSV_then_do(n_time):
     '''
     #csvのimportからcsvのoutputまでやりたい処理をすべて詰め込みました
     #実行時間の確認もできます
@@ -226,9 +241,10 @@ def importArrayfromCSV_then_do():
         inputArray = [row for row in reader]
         outputArray = []
         for i in tqdm(range(1,len(inputArray))):
+        # for i in tqdm(range(100,120)):
             np.pi*np.pi
-            adMF =  translate_hyoka(inputArray[i][1],inputArray[i][0])
-            adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0]))
+            adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
+            adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
             outputArray.append(adMF)
         # print(outputArray[1])
 
@@ -247,6 +263,5 @@ def importArrayfromCSV_then_do():
 
 
 if __name__ == '__main__':
-    importArrayfromCSV_then_do()
-    # print(type(manytimeFscore('あの人、何をしているの','あいづ、何しったなや')))
+    importArrayfromCSV_then_do(30)
 
