@@ -224,15 +224,34 @@ def manytimeFscore(text1:str,text2:str,n:int) -> float:
     average = 0
     averageArray = []
     for i in range(1,n+1):
-        sum = 0
         if not translate_hyoka(text1,text2,1)[3] == None:
             averageArray.append(translate_hyoka(text1,text2,1)[3])
         average = mean(averageArray)
     return average
 
-def kaiseki(array:list):
+def average(array:list) -> list:
+    fscore = []
+    fscore_op = []
+    times = []
+    f_ave = 0
+    f_op_ave = 0
+    times_ave = 0
+    for i in range(len(array)):
+        fscore.append(array[i][3])
+        fscore_op.append(array[i][6])
+        times.append(array[i][7])
+    f_ave = mean(fscore)
+    f_op_ave = mean(fscore_op)
+    times_ave = mean(times)
+    return '平均',None,None,f_ave,None,None,f_op_ave,times_ave
 
-    return 
+def by_option(array:list) -> int:
+    if not array[3] == 0:
+        times = array[6]/array[3]
+    elif array[6] == 0:
+        times = 0
+    else: times = 1
+    return times
 
 def importArrayfromCSV_then_do(n_time):
     '''
@@ -249,15 +268,18 @@ def importArrayfromCSV_then_do(n_time):
         # for i in tqdm(range(100,120)):
             np.pi*np.pi
             adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
+            adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
             adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
+            adMF.append(by_option(adMF))
+            for_plot_array = adMF
             outputArray.append(adMF)
-            # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option']
+            # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option','option効果']
         
+        outputArray.append(average(outputArray))
 
+        # for_plot_array
 
-        # ここにdef kaiseki()を入れたい
-
-        header = ['oitama','result','answer','fScore','bleuscore','fcore-option']
+        header = ['oitama','result','answer','fScore','bleuscore','option_result','fcore-option','option効果']
         dt_now = datetime.datetime.now()
         with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
  
