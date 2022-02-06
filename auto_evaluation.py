@@ -253,6 +253,13 @@ def by_option(array:list) -> int:
     else: times = 1
     return times
 
+def makeFig(array,data_name:str):
+    bins = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2]
+    plt.hist(array,bins)
+    plt.title(str(data_name)+"'s function")
+    plt.savefig("./outputFig/"+str(data_name)+"'s function")
+    return None
+
 
 def importArrayfromCSV_then_do(n_time):
     '''
@@ -272,10 +279,13 @@ def importArrayfromCSV_then_do(n_time):
             adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
             adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
             adMF.append(by_option(adMF))
-            for_plot_array = adMF
+
             outputArray.append(adMF)
             # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option','option効果']
-        
+        makeFig(numpy.array(outputArray).transpose(1, 0)[3],'fscore')
+        makeFig(numpy.array(outputArray).transpose(1, 0)[5],'fscore-option')
+        makeFig(numpy.array(outputArray).transpose(1, 0)[6],'option効果')
+
         outputArray.append(average(outputArray))
 
         # for_plot_array
@@ -295,5 +305,5 @@ def importArrayfromCSV_then_do(n_time):
 
 
 if __name__ == '__main__':
-    importArrayfromCSV_then_do(10)
+    importArrayfromCSV_then_do(1)
 
