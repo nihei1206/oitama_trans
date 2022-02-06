@@ -273,38 +273,38 @@ def importArrayfromCSV_then_do(n_time):
     with open('./auto_evaluation.csv') as f:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
-        outputArray = []
-        for i in tqdm(range(1,len(inputArray))):
-        # for i in tqdm(range(100,120)):
-            np.pi*np.pi
-            adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
-            adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
-            adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
-            adMF.append(by_option(adMF))
+    f.close()
 
-            outputArray.append(adMF)
-            # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option','option効果']
-        arr = numpy.array(outputArray).transpose(1, 0)
-        makeFig(arr[3],'fscore')
-        makeFig(arr[6],'fscore-option')
-        makeFig(arr[7],'option-effect')
+    outputArray = []
+    for i in tqdm(range(1,len(inputArray))):
+    # for i in tqdm(range(100,120)):
+        np.pi*np.pi
+        adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
+        adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
+        adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
+        adMF.append(by_option(adMF))
 
-        outputArray.append(average(outputArray))
+        outputArray.append(adMF)
+        # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option','option効果']
+    arr = numpy.array(outputArray).transpose(1, 0)
+    makeFig(arr[3],'fscore')
+    makeFig(arr[6],'fscore-option')
+    makeFig(arr[7],'option-effect')
 
-        # for_plot_array
+    outputArray.append(average(outputArray))
 
-        header = ['oitama','result','answer','fScore','bleuscore','option_result','fcore-option','option効果']
-        dt_now = datetime.datetime.now()
-        with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
- 
-            writer = csv.writer(f)
-            writer.writerow(header)
-            writer.writerows(outputArray)
+    # for_plot_array
+    header = ['oitama','result','answer','fScore','bleuscore','option_result','fcore-option','option効果']
+    dt_now = datetime.datetime.now()
+    with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
 
-        f.close()
-        elapsed_time = time.time() - start
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(outputArray)
 
-        return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+    f.close()
+    elapsed_time = time.time() - start
+    return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
 
 if __name__ == '__main__':
