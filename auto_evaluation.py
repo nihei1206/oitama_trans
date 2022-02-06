@@ -255,7 +255,7 @@ def by_option(array:list) -> int:
     return times
 
 def makeFig(array,data_name:str):
-    bins = np.arange(0,1.1,0.01)
+    bins = np.arange(0,1.1,0.05)
     plt.hist(array,bins=bins)
     plt.title(str(data_name)+"'s function")
     dt_now = datetime.datetime.now()
