@@ -231,7 +231,7 @@ def manytimeFscore(text1:str,text2:str,n:int) -> float:
     return average
 
 def kaiseki(array:list):
-
+    #test
     return 
 
 def importArrayfromCSV_then_do(n_time):
