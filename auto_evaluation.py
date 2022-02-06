@@ -222,12 +222,17 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
 
 def manytimeFscore(text1:str,text2:str,n:int) -> float:
     average = 0
+    averageArray = []
     for i in range(1,n+1):
         sum = 0
         if not translate_hyoka(text1,text2,1)[3] == None:
-            sum += float(translate_hyoka(text1,text2,1)[3])
-        average = sum/n
+            averageArray.append(translate_hyoka(text1,text2,1)[3])
+        average = mean(averageArray)
     return average
+
+def kaiseki(array:list):
+
+    return 
 
 def importArrayfromCSV_then_do(n_time):
     '''
@@ -246,9 +251,13 @@ def importArrayfromCSV_then_do(n_time):
             adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
             adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
             outputArray.append(adMF)
-        # print(outputArray[1])
+            # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option']
+        
 
-        header = ['oitama','result','answer','fScore','bleuscore','fcore-hokan']
+
+        # ここにdef kaiseki()を入れたい
+
+        header = ['oitama','result','answer','fScore','bleuscore','fcore-option']
         dt_now = datetime.datetime.now()
         with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
  
@@ -263,5 +272,5 @@ def importArrayfromCSV_then_do(n_time):
 
 
 if __name__ == '__main__':
-    importArrayfromCSV_then_do(30)
+    importArrayfromCSV_then_do(10)
 
