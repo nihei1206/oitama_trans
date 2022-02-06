@@ -20,6 +20,7 @@ import numpy
 import random
 import statistics
 from statistics import mean
+import matplotlib.pyplot as plt
 
 ### Initialized Takenizer ### 
 # トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
@@ -198,12 +199,19 @@ def translate_hyoka(oitama:str, answer:str) -> list:
 
 def manytimeFscore(text1:str,text2:str) -> float:
     outputarray = []
-    average = 0.0
-    for i in range(10):
+    average = 0
+    for i in range(20):
         if not translate_hyoka(text1,text2)[3] == None:
-            outputarray.append(translate_hyoka(text1,text2)[3])
+            hyokachi = translate_hyoka(text1,text2)[3]
+        
+            outputarray.append(hyokachi)
     if not all(val is None for val in outputarray):
         average = mean(outputarray)
+        # data = []
+        # y_data = outputarray
+        # plt.plot(data, y_data, marker="o")
+        # plt.savefig("graph.png")
+        # plt.show()
     return average
 
 def importArrayfromCSV_then_do():
