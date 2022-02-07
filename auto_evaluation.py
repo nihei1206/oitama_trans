@@ -309,5 +309,6 @@ def importArrayfromCSV_then_do(n_time):
 
 if __name__ == '__main__':
     # 引数は何回、格助詞ランダムを実行して平均を取るか
-    importArrayfromCSV_then_do(100)
+    n = input()
+    importArrayfromCSV_then_do(n)
 
