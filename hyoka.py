@@ -17,6 +17,7 @@ import pprint
 import datetime
 from tqdm import tqdm
 import numpy as np
+from statistics import mean
 
 def sudachionlyWakachi(text:str) -> list:
     '''
@@ -76,7 +77,7 @@ def hyoka(result:list,answer:list) -> list:
     recall = correct / len(answer)
 
     if precision == 0 and recall == 0:
-        return result,answer,precision ,recall ,None
+        return result,answer,precision ,recall ,0
     else:
         Fscore = (2 * precision * recall) / ( precision + recall )
         # return result,answer,precision,recall,Fscore
@@ -88,6 +89,20 @@ def canmaBunkatsu(text:str) -> list:
     '''
     outputArray = text.split(',')
     return outputArray
+
+def average(array:list) -> list:
+    seido_arr = []
+    saigen_arr = []
+    fscore_arr = []
+
+    for i in range(len(array)):
+        seido_arr.append(array[i][2])
+        saigen_arr.append(array[i][3])
+        fscore_arr.append(array[i][4])
+    seido_ave = mean(seido_arr)
+    saigen_ave = mean(saigen_arr)
+    f_ave = mean(fscore_arr)
+    return '平均',None,seido_ave,saigen_ave,f_ave
 
 def importArrayfromCSV_then_do() -> str:
     '''
@@ -103,6 +118,8 @@ def importArrayfromCSV_then_do() -> str:
         for i in tqdm(range(1,len(inputArray))):
             np.pi*np.pi
             outputArray.append(hyoka(sudachiOitamaWakachi(inputArray[i][1]),canmaBunkatsu(inputArray[i][2])))
+        
+        outputArray.append(average(outputArray))
 
         header = ['result','answer','seido','saigen','Fscore']
         dt_now = datetime.datetime.now()
@@ -119,6 +136,7 @@ def importArrayfromCSV_then_do() -> str:
             np.pi*np.pi
             outputArray.append(hyoka(sudachionlyWakachi(inputArray[i][1]),canmaBunkatsu(inputArray[i][2])))
 
+        outputArray.append(average(outputArray))
         header = ['result','answer','seido','saigen','Fscore']
         dt_now = datetime.datetime.now()
         with open('./outputCSV/Bunkatsu_sudachiDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:

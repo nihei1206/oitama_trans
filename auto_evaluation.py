@@ -255,7 +255,7 @@ def by_option(array:list) -> int:
     return times
 
 def makeFig(array,data_name:str):
-    bins = np.arange(0,1.1,0.05)
+    bins = np.arange(0,1,0.1)
     plt.hist(array,bins=bins)
     plt.title(str(data_name)+"'s function")
     dt_now = datetime.datetime.now()
@@ -285,7 +285,7 @@ def importArrayfromCSV_then_do(n_time):
         adMF.append(by_option(adMF))
 
         outputArray.append(adMF)
-        # outputArray = ['oitama','result','answer','fScore','bleuscore','fcore-option','option効果']
+        # outputArray = ['oitama', 'result', 'answer', 'fScore', 'bleuscore', 'option_result', 'fcore-option', 'option効果']
     arr = numpy.array(outputArray).transpose(1, 0)
     makeFig(arr[3],'fscore')
     makeFig(arr[6],'fscore-option')
@@ -309,5 +309,5 @@ def importArrayfromCSV_then_do(n_time):
 
 if __name__ == '__main__':
     # 引数は何回、格助詞ランダムを実行して平均を取るか
-    importArrayfromCSV_then_do(30)
+    importArrayfromCSV_then_do(100)
 
