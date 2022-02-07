@@ -88,13 +88,15 @@ def addDropedWord(text:str) -> str:
     口語文書の解析精度向上のための 助詞落ち推定および補完 ...の論文より割合を引用
     default = {'が':15.2,'を':16.7,'に':0.7,'で':1.4,'の':1.5,'は':31.5,'と':33.0}
     置賜カスタマイズ(「山形県のことば」より、省略される助詞と明記されているもののみを実行)
-    yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53}
+    yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53} ->4kjs
+    {'が':71.95,'を':25.73,'の':2.32} -> 3kjs
+
     '''
     mode = tokenizer.Tokenizer.SplitMode.C
     tokens = tokenizer_obj.tokenize(text,mode)
     wordPartofspeech = []
     wordCombine = []
-    kakujoshi_dict = {'が':23.42,'を':25.73,'の':2.31,'は':48.53}
+    kakujoshi_dict = {'が':1,'を':1,'に':1}
     candidates = [*kakujoshi_dict]
     weights = [*kakujoshi_dict.values()]
     randomed_kakujoshi = random.choices(candidates, weights=weights)[0]
@@ -221,30 +223,24 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
 
     return [oitama,result,answer,fScore,bleuScore]
 
-def manytimeFscore(text1:str,text2:str,n:int) -> float:
-    average = 0
-    averageArray = []
-    for i in range(1,n+1):
+def manytimeFscore(text1:str,text2:str,n:int):
+    arr = []
+    for k in range(1,n+1):
         if not translate_hyoka(text1,text2,1)[3] == None:
-            averageArray.append(translate_hyoka(text1,text2,1)[3])
-        average = mean(averageArray)
-    return average
+            arr.append(translate_hyoka(text1,text2,1)[3])
+    max_ = [i for i, v in enumerate(arr) if v == max(arr)]
+    maxtimesIndex = int(mean(max_))
+    maxArr = float(max(arr))
+    return maxArr,maxtimesIndex
 
 def average(array:list) -> list:
-    fscore = []
-    fscore_op = []
-    times = []
-    f_ave = 0
-    f_op_ave = 0
-    times_ave = 0
-    for i in range(len(array)):
-        fscore.append(array[i][3])
-        fscore_op.append(array[i][6])
-        times.append(array[i][7])
-    f_ave = mean(fscore)
-    f_op_ave = mean(fscore_op)
-    times_ave = mean(times)
-    return '平均',None,None,f_ave,None,None,f_op_ave,times_ave
+
+    numarr = np.array(array).transpose()
+    f_ave = mean(numarr[3])
+    f_op_ave = mean(numarr[6])
+    index_ave = mean(numarr[7])
+    # bleu_ave = mean(numarr[4])
+    return '平均',None,None,f_ave,None,None,f_op_ave,index_ave
 
 def by_option(array:list) -> int:
     if not array[3] == 0:
@@ -281,20 +277,16 @@ def importArrayfromCSV_then_do(n_time):
         np.pi*np.pi
         adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
         adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
-        adMF.append(manytimeFscore(inputArray[i][1],inputArray[i][0],n_time))
-        adMF.append(by_option(adMF))
-
+        # ぶん回す↓
+        manytime = manytimeFscore(inputArray[i][1],inputArray[i][0],n_time)
+        adMF.append(manytime[0])
+        adMF.append(manytime[1])
         outputArray.append(adMF)
-        # outputArray = ['oitama', 'result', 'answer', 'fScore', 'bleuscore', 'option_result', 'fcore-option', 'option効果']
-    arr = numpy.array(outputArray).transpose(1, 0)
-    makeFig(arr[3],'fscore')
-    makeFig(arr[6],'fscore-option')
-    makeFig(arr[7],'option-effect')
 
     outputArray.append(average(outputArray))
 
     # for_plot_array
-    header = ['oitama','result','answer','fScore','bleuscore','option_result','fcore-option','option効果']
+    header = ['oitama','result','answer','fScore','bleuscore','option_result','opt_Arr_max','maxtimesIndex']
     dt_now = datetime.datetime.now()
     with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
 
@@ -310,6 +302,7 @@ def importArrayfromCSV_then_do(n_time):
 if __name__ == '__main__':
     # 引数は何回、格助詞ランダムを実行して平均を取るか
     # CLIで数値を入力してその回数分格助詞補完結果をループさせる
-    n = input()
+    print('何回ぶん回しますか?')
+    n = int(input())
     importArrayfromCSV_then_do(n)
 
