@@ -309,6 +309,7 @@ def importArrayfromCSV_then_do(n_time):
 
 if __name__ == '__main__':
     # 引数は何回、格助詞ランダムを実行して平均を取るか
+    # CLIで数値を入力してその回数分格助詞補完結果をループさせる
     n = input()
     importArrayfromCSV_then_do(n)
 
