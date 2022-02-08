@@ -44,7 +44,3 @@ def mkfig():
 if __name__ == '__main__':
     # 引数は何回、格助詞ランダムを実行して平均を取るか
     mkfig()
-    # bins = np.arange(0,1.2,0.1)
-    # bin = bins.tolist()
-    # bin_ = [round(bin[n], 2) for n in range(len(bin ))] 
-    # print(bin_)
