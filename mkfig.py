@@ -14,33 +14,49 @@ import numpy as np
 from statistics import mean
 import matplotlib.pyplot as plt
 
-def makeFig(array,data_name:str):
-    plt.hist(array,bins=40)
-    plt.title(str(data_name)+"'s function")
-    dt_now = datetime.datetime.now()
-    plt.savefig("./outputFig/"+str(data_name)+ dt_now.strftime('%y%m%d-%H%M%S'))
-    plt.show()
-    return None
 
-def mkfig():
+def makeFig(array, data_name:str,bins:int,sub_name):
+
+    plt.style.use('ggplot')
+    plt.hist(array,bins=bins,range = (0,1), color="blue", edgecolor="black", linestyle="--",rwidth = 0.8)
+    plt.title(str(data_name) + str(sub_name)+ "'s hist")
+
+    dt_now = datetime.datetime.now()
+    plt.savefig("./outputFig/" +str(data_name) + str(sub_name)+ dt_now.strftime('%H%M%S'))
+    plt.show()
+    return "Done"
+
+def mkfig(dataname,dataType,bins):
     '''
     図を作りたい
     '''
-    str = input()
-    with open('./outputCSV/'+str) as f:
+    # with open('./outputCSV/0209_ver4/' + filename + "_result.csv") as f:
+    with open("./outputCSV/0209_ver4/"+ str(dataname) + "_result.csv") as f:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
     f.close()
-    # outputArray = ['oitama', 'result', 'answer', 'fScore', 'bleuscore', 'option_result', 'fcore-option', 'option効果']
-    
-    arr = np.array(inputArray[1:-1]).transpose(1, 0)
-    makeFig(arr[3],'fscore')
-    makeFig(arr[6],'fscore-option')
-    makeFig(arr[7],'option-effect')
-    # print(arr[3],'fscore')
-    # print(arr[6],'fscore-option')
-    # print(arr[7],'option-effect')
+
+    inputArray = np.array(inputArray[1:-1])
+
+    if dataType == 'split' or  dataType == 's':
+        floatArray = np.array(inputArray.transpose(1, 0)[4],dtype = np.float64)
+        print(makeFig(floatArray,dataname,bins,''))
+    elif dataType == 'trans' or  dataType == 't':
+        floatArray = np.array(inputArray.transpose(1, 0)[3],dtype = np.float64)
+        print(makeFig(floatArray,dataname,bins,''))
+
+        floatArray = np.array(inputArray.transpose(1, 0)[6],dtype = np.float64)
+        print(makeFig(floatArray,dataname,bins,'-option'))
 
 if __name__ == '__main__':
-    # 引数は何回、格助詞ランダムを実行して平均を取るか
-    mkfig()
+    print('split(s) or trans(t)')
+    dataType = str(input())
+
+    if dataType == 'split' or dataType == 's':
+        print('Oitama or Sudachi')
+        dataname = str(input())
+    elif dataType == 'trans' or dataType == 't':
+        dataname = str('Trans')
+    print('input bins')
+    bins = int(input())
+    mkfig(dataname,dataType,bins)
