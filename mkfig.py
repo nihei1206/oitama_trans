@@ -13,9 +13,14 @@ from tqdm import tqdm
 import numpy as np
 from statistics import mean
 import matplotlib.pyplot as plt
+import statistics
+import math
 
 
 def makeFig(array, data_name:str,bins:int,sub_name):
+    
+    median = statistics.median(array)
+    ave = statistics.mean(array)
 
     plt.style.use('ggplot')
     plt.hist(array,bins=bins,range = (0,1), color="blue", edgecolor="black", linestyle="--",rwidth = 0.8)
@@ -24,7 +29,8 @@ def makeFig(array, data_name:str,bins:int,sub_name):
     dt_now = datetime.datetime.now()
     plt.savefig("./outputFig/" +str(data_name) + str(sub_name)+ dt_now.strftime('%H%M%S'))
     plt.show()
-    return "Done"
+    
+    return "Done! " + str(data_name) + str(sub_name)+ ": median is " + str(median) +  " / Ave is " + str(ave)
 
 def mkfig(dataname,dataType,bins):
     '''
