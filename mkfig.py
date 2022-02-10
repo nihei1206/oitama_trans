@@ -25,6 +25,8 @@ def makeFig(array, data_name:str,bins:int,sub_name):
     plt.style.use('ggplot')
     plt.hist(array,bins=bins,range = (0,1), color="blue", edgecolor="black", linestyle="--",rwidth = 0.8)
     plt.title(str(data_name) + str(sub_name)+ "'s hist")
+    # plt.yticks(np.arange(0, 65, 5)) split
+    plt.yticks(np.arange(0, 22.5, 2.5))
 
     dt_now = datetime.datetime.now()
     plt.savefig("./outputFig/" +str(data_name) + str(sub_name)+ dt_now.strftime('%H%M%S'))
