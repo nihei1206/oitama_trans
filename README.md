@@ -1,2 +1,1 @@
-# oitamatranslate
-# oitamaTrans
+#置賜方言における共通語への機械翻訳と性能評価
