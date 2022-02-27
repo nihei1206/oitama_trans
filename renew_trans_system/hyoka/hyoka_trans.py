@@ -12,6 +12,7 @@ import numpy as np
 import random
 from statistics import mean
 import matplotlib.pyplot as plt
+from translator import translate
 
 ### Initialized Takenizer ### 
 # トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
@@ -70,10 +71,7 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
     config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
     
-    if hyokaOption == 1:
-        result = translaterOitamaOption(oitama,tokenizer_obj)
-    else:
-        result = translaterOitama(oitama,tokenizer_obj)
+    result = translate.replacement(oitama,tokenizer_obj,hyokaOption)
 
     # 変換後なので,ここからuserDictの不使用 => sudachiDict(full)のみの使用を宣言
     # config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
@@ -153,7 +151,7 @@ def makeFig(array,data_name:str):
     plt.show()
     return None
 
-def importArrayfromCSV_then_do(n_time):
+def importArrayfromCSV_then_do(n_time,option:int):
     '''
     #csvのimportからcsvのoutputまでやりたい処理をすべて詰め込みました
     #実行時間の確認もできます
@@ -170,7 +168,7 @@ def importArrayfromCSV_then_do(n_time):
     # for i in tqdm(range(100,120)):
         np.pi*np.pi
         adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
-        adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
+        adMF.append(translate.replacement(inputArray[i][1],tokenizer_obj,option))
         # ぶん回す↓
         manytime = manytimeFscore(inputArray[i][1],inputArray[i][0],n_time)
         adMF.append(manytime[0])
