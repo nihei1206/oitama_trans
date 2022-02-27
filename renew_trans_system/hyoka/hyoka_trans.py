@@ -22,78 +22,6 @@ config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json
 tokenizer_obj = dictionary.Dictionary(config_path=config_path_link).create() 
 mode = tokenizer.Tokenizer.SplitMode.C
 
-def translaterOitama(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
-    '''
-    #入力された文章を,SudachiDictとUserDictで翻訳
-    #今後ここの中の任意の場所に高度な例外処理を組み込みたい
-    #splitMode == C
-    '''
-    mode = tokenizer.Tokenizer.SplitMode.C
-    combinedExchangeHogen = []
-    tokens = tokenizer_obj.tokenize(text,mode)
-    for m in tokens:
-        if m.part_of_speech()[5] == '方言':
-            combinedExchangeHogen.append(m.normalized_form())
-        else:
-            combinedExchangeHogen.append(m.surface())
-    combinedExchangeHogentext = "".join(combinedExchangeHogen)
-    return combinedExchangeHogentext
-
-def translaterOitamaOption(text:str,tokenizer_obj:tokenizer.Tokenizer) -> str:
-    '''
-    #入力された文章を,SudachiDictとUserDictで翻訳
-    #今後ここの中の任意の場所に高度な例外処理を組み込みたい
-    #splitMode == C
-    '''
-    mode = tokenizer.Tokenizer.SplitMode.C
-    combinedExchangeHogen = []
-    tokens = tokenizer_obj.tokenize(text,mode)
-    for m in tokens:
-        if m.part_of_speech()[5] == '方言':
-            combinedExchangeHogen.append(m.normalized_form())
-        else:
-            combinedExchangeHogen.append(m.surface())
-    combinedExchangeHogentext = "".join(combinedExchangeHogen)
-
-    #欠落の格助詞補完
-    translatedOutput = addDropedWord(combinedExchangeHogentext)
-
-    return translatedOutput
-
-def addDropedWord(text:str) -> str:
-    '''
-    欠落語補完機能
-    名詞,形容詞が連続した場合,間に「が」を入れることで「が」の欠落を補完
-    名詞,動詞が連続した場合,間に「に」を入れることで「に(さ)」の欠落を補完
-    仮説 ->「さ」助詞を補完したらなんでもうまく行くのではないか
-    口語文書の解析精度向上のための 助詞落ち推定および補完 ...の論文より割合を引用
-    default = {'が':15.2,'を':16.7,'に':0.7,'で':1.4,'の':1.5,'は':31.5,'と':33.0}
-    置賜カスタマイズ(「山形県のことば」より、省略される助詞と明記されているもののみを実行)
-    yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53} ->4kjs
-    {'が':71.95,'を':25.73,'の':2.32} -> 3kjs
-
-    '''
-    mode = tokenizer.Tokenizer.SplitMode.C
-    tokens = tokenizer_obj.tokenize(text,mode)
-    wordPartofspeech = []
-    wordCombine = []
-    kakujoshi_dict = {'が':1,'を':1,'に':1}
-    candidates = [*kakujoshi_dict]
-    weights = [*kakujoshi_dict.values()]
-    randomed_kakujoshi = random.choices(candidates, weights=weights)[0]
-    for m in tokens:
-        wordPartofspeech.append([m.surface(),m.part_of_speech()[0]])        
-
-    for j in range(len(wordPartofspeech)-1):
-        if wordPartofspeech[j][1] == '名詞' or wordPartofspeech[j][1] == '代名詞':
-            if wordPartofspeech[j+1][1] == '動詞' or wordPartofspeech[j+1][1] == '形容詞':
-                wordPartofspeech.insert(j+1,[randomed_kakujoshi,'助詞',''])
-
-    for k in range(len(wordPartofspeech)):
-        wordCombine.append(wordPartofspeech[k][0])
-    wordOutput = "".join(wordCombine)
-    return wordOutput
-
 def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     '''
     #入力された文章を,評価するための配列にsudachidictのみでわかち書き
@@ -118,21 +46,6 @@ def wakachiWrite(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     for m in tokens:
         wakachi_Array.append(m.surface())
     return wakachi_Array
-
-def transOitamaToJp_inclde_info(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
-    '''
-    #入力された文章を:方言,:標準語情報込みでわかち書きをして配列で出力する関数->出力確認用使わない
-    #splitMode == A  
-    '''
-    hogenOrNotArray = []
-    mode = tokenizer.Tokenizer.SplitMode.C
-    tokens = tokenizer_obj.tokenize(text,mode)
-    for m in tokens:
-        if m.part_of_speech()[5] == '方言':
-            hogenOrNotArray.append(m.surface()+':方言->'+m.normalized_form()+':標準語')
-        else:
-            hogenOrNotArray.append(m.surface()+':標準語')
-    return hogenOrNotArray
 
 def list_difference(list1:list, list2:list) -> list:
     '''
@@ -278,12 +191,3 @@ def importArrayfromCSV_then_do(n_time):
     f.close()
     elapsed_time = time.time() - start
     return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
-
-
-if __name__ == '__main__':
-    # 引数は何回、格助詞ランダムを実行して平均を取るか
-    # CLIで数値を入力してその回数分格助詞補完結果をループさせる
-    print('何回ぶん回しますか?')
-    n = int(input())
-    importArrayfromCSV_then_do(n)
-
