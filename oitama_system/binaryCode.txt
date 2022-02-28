@@ -1,0 +1,3 @@
+sudachipy ubuild \
+-s ./lib/python3.9/site-packages/sudachidict_full/resources/system.dic \
+./user_dict/sudachi_oitama_dict_others_1.4.csv
