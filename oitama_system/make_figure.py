@@ -27,12 +27,26 @@ def makeFig(array, data_name:str,bins:int,sub_name,title:str,dataType):
     
     return "Done! " + str(data_name) + str(sub_name)+ ": median is " + str(median) +  " / Ave is " + str(ave)
 
-def selectFigType(dataname,dataType,bins,title):
+def selectFigType():
     '''
     図を作りたい
     '''
+
+    print('split(s) or trans(t)')
+    dataType = str(input())
+    if dataType == 's':
+        print('Oitama or Sudachi')
+        dataname = str(input())
+    elif dataType == 't':
+        dataname = str('Translator')
+    print('input bins')
+    bins = int(input())
+    print('title of histgram')
+    title = str(input())
     print('input import file name')
     imported_csvname = str(input())
+
+    
     with open("../outputCSV/" + imported_csvname) as f:
         reader = csv.reader(f)
         inputArray = [row for row in reader]

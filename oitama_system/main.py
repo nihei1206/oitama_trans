@@ -8,25 +8,11 @@ def choice(number):
 
     elif number == 1:
         # translate_hyoka()
-        print('何回ぶん回しますか?')
-        n = int(input())
-        mc.make_csv_translate(n)
+        mc.make_csv_translate()
 
     elif number == 2:
         # makefig()
-        print('split(s) or trans(t)')
-        dataType = str(input())
-        if dataType == 's':
-            print('Oitama or Sudachi')
-            dataname = str(input())
-        elif dataType == 't':
-            dataname = str('Translator')
-        print('input bins')
-        bins = int(input())
-        print('title of histgram')
-        title = str(input())
-
-        mf.selectFigType(dataname,dataType,bins,title)
+        mf.selectFigType()
     else:
         exit()
 
@@ -35,6 +21,3 @@ if __name__ == '__main__':
     print('0:分割と評価','1:翻訳と評価','2:作図')
     selectFanction = int(input())
     choice(selectFanction)
-
-
-    

@@ -79,10 +79,12 @@ def make_csv_split():
 
     return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
-def make_csv_translate(n_time:int):
+def make_csv_translate():
     '''
     
     '''
+    print('何回ぶん回しますか?')
+    n_time = int(input())
 
     start = time.time()
     with open('../auto_evaluation.csv') as f:
