@@ -18,6 +18,7 @@ def hyokaArray_trans(text:str,tokenizer_obj:t.Tokenizer) -> list:
     for m in tokens:
         hyokaArray.append(m.surface()+str(m.part_of_speech()))
     return hyokaArray
+    # surface()+part_of_speech() -> (表層形 + 品詞情報[例:動詞/五段活用/さ変可能]) 
 
 def list_difference(list1:list, list2:list) -> list:
     '''
