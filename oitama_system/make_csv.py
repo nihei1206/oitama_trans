@@ -32,7 +32,7 @@ def average_output(array:list,option:int) -> list:
         return '平均',None,None,f_ave,None,None,f_op_ave,index_ave
 
 
-def make_csv_split() -> str:
+def make_csv_split():
     '''
 
     '''
@@ -79,7 +79,7 @@ def make_csv_split() -> str:
 
     return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
-def make_csv_translate(n_time,option:int):
+def make_csv_translate(n_time:int):
     '''
     
     '''
@@ -92,15 +92,19 @@ def make_csv_translate(n_time,option:int):
 
     outputArray = []
     for i in tqdm(range(1,len(inputArray))):
-    # for i in tqdm(range(100,120)):
         np.pi*np.pi
         adMF = ht.translate_hyoka(inputArray[i][1],inputArray[i][0],0)
-        adMF.append(tr.replacement(inputArray[i][1],option))
+        adMF.append(tr.replacement(inputArray[i][1],1))
         # ぶん回す↓
         manytime = op.manytimeFscore(inputArray[i][1],inputArray[i][0],n_time)
         adMF.append(manytime[0])
         adMF.append(manytime[1])
         outputArray.append(adMF)
+    
+        # np.pi*np.pi
+        # adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
+        # adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
+
 
     outputArray.append(average_output(outputArray,1))
 

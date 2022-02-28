@@ -4,7 +4,7 @@ from sudachipy import dictionary as d
 from nltk import bleu_score as bs
 from translator import translate
 
-def hyokaArray_trans(text:str,tokenizer_obj:t.Tokenizer) -> list:
+def hyokaArray_trans(text:str) -> list:
     '''
     #入力された文章を,評価するための配列にsudachidictのみでわかち書き
     #splitMode == A
@@ -33,27 +33,19 @@ def list_difference(list1:list, list2:list) -> list:
             result.remove(value)
     return result
 
-def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
+def translate_hyoka(oitama:str, answer:str ,option:int) -> list:
     '''
     hyokaOption == 0 ->置換のみ手法
     hyokaOption == 1 -> 脳筋Option(格助詞の確立的はめ込み)
     #return [answer:str,oitama:str,result:str,fScore:float,bleuScore:float]
     '''
     #置賜弁をここで標準語に翻訳
-    config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-    tokenizer_obj = d.Dictionary(config_path=config_path_link,dict="full").create()
-    
-    result = translate.replacement(oitama,tokenizer_obj,hyokaOption)
-
-    # 変換後なので,ここからuserDictの不使用 => sudachiDict(full)のみの使用を宣言
-    # config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
-    tokenizer_obj = d.Dictionary(dict="full").create() 
-    #Sudachidict_full優先 dict="full"
+    result = translate.replacement(oitama,option)
 
     #result:置賜弁を翻訳した結果
     #answer:用意している正解データ
-    resultHyokaArray = hyokaArray_trans(result,tokenizer_obj)
-    answerHyokaArray = hyokaArray_trans(answer,tokenizer_obj)
+    resultHyokaArray = hyokaArray_trans(result)
+    answerHyokaArray = hyokaArray_trans(answer)
 
     # 正解データをわかち書き
     # 正解文を形態要素解析した正解配列と翻訳したあとの文を形態要素解析した配列を比較して、
@@ -62,8 +54,16 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
     system_output_word_count = len(resultHyokaArray) #翻訳した結果の全単語数
     answer_output_word_count = len(answerHyokaArray) #対応する正解データの全単語数
     correct_output_word_count = answer_output_word_count-len(Only_answer_list_have)
-    seido = correct_output_word_count/system_output_word_count
-    saigen = correct_output_word_count/answer_output_word_count
+
+    seido = 0
+    saigen = 0
+
+    try:
+        seido = correct_output_word_count/system_output_word_count
+        saigen = correct_output_word_count/answer_output_word_count
+    except ZeroDivisionError as e:
+        print(e)
+        print(type(e))
 
     ### Output ###
     # F-score

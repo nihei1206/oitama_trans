@@ -1,6 +1,6 @@
 from sudachipy import tokenizer as t
 from sudachipy import dictionary as d
-import option as op
+from translator import option as op
 
 ### Initialized Takenizer ### 
 # トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
@@ -22,7 +22,8 @@ def replacement(text:str,option:int):
             combinedExchangeHogen.append(m.normalized_form())
         else:
             combinedExchangeHogen.append(m.surface())
-    
+
+    combinedExchangeHogentext = ''
     if option == 0:
         combinedExchangeHogentext = "".join(combinedExchangeHogen)
         return combinedExchangeHogentext
