@@ -1,8 +1,5 @@
-from turtle import update
 from sudachipy import tokenizer
 from sudachipy import dictionary
-from nltk.util import ngrams
-from nltk import bleu_score
 
 def sudachionlyWakachi(text:str) -> list:
     '''

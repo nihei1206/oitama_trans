@@ -1,14 +1,8 @@
-from enum import auto
-from turtle import update
-from collections import Counter
-from fractions import Fraction
 import csv
 import datetime
 import numpy as np
-from statistics import mean
 import matplotlib.pyplot as plt
 import statistics
-import math
 
 
 def makeFig(array, data_name:str,bins:int,sub_name,title:str):

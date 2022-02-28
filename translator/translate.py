@@ -1,19 +1,12 @@
 from sudachipy import tokenizer
 from sudachipy import dictionary
-from collections import Counter
-from fractions import Fraction
-import time
-import csv
-import datetime
-from tqdm import tqdm
-import numpy as np
 import option as op
 
 ### Initialized Takenizer ### 
 # トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
 # Qsudachidict_full優先 dict="full"
 
-def replacement(text:str,tokenizer_obj:tokenizer.Tokenizer,option:int):
+def replacement(text:str,option:int):
     '''
     #入力された文章を,SudachiDictとUserDictで翻訳
     '''

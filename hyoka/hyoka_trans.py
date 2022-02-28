@@ -2,7 +2,6 @@ from sudachipy import tokenizer
 from sudachipy import dictionary
 from nltk.util import ngrams
 from nltk import bleu_score
-from statistics import mean
 from translator import translate
 
 def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:

@@ -1,28 +1,11 @@
-from sudachipy import tokenizer
-from sudachipy import dictionary
-from nltk.util import ngrams
-from nltk import bleu_score
-from collections import Counter
-from fractions import Fraction
 import time
 import csv
 import datetime
 from tqdm import tqdm
 import numpy as np
-import random
 from statistics import mean
-import matplotlib.pyplot as plt
-from translator import translate
+from translator import translate as tr,option as op
 from hyoka import hyoka_trans as ht,hyoka_split as hs
-
-### Initialized Takenizer ### 
-# トークナイザの作成,辞書位置(sudachi.json ; 相対パス)の指定
-# Qsudachidict_full優先 dict="full"
-# mode(a,b,c)の指定
-config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-#ユーザー辞書の使用を宣言
-tokenizer_obj = dictionary.Dictionary(config_path=config_path_link).create() 
-mode = tokenizer.Tokenizer.SplitMode.C
 
 def average_output(array:list,option:int) -> list:
     # option 0 => for split evaluate CSV
@@ -112,9 +95,9 @@ def make_csv_translate(n_time,option:int):
     # for i in tqdm(range(100,120)):
         np.pi*np.pi
         adMF = ht.translate_hyoka(inputArray[i][1],inputArray[i][0],0)
-        adMF.append(translate.replacement(inputArray[i][1],tokenizer_obj,option))
+        adMF.append(tr.replacement(inputArray[i][1],option))
         # ぶん回す↓
-        manytime = ht.manytimeFscore(inputArray[i][1],inputArray[i][0],n_time)
+        manytime = op.manytimeFscore(inputArray[i][1],inputArray[i][0],n_time)
         adMF.append(manytime[0])
         adMF.append(manytime[1])
         outputArray.append(adMF)
