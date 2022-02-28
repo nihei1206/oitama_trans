@@ -5,10 +5,10 @@ from nltk import bleu_score as bs
 from translator import translate
 
 def hyokaArray_trans(text:str) -> list:
-    '''
+    """
     #入力された文章を,評価するための配列にsudachidictのみでわかち書き
     #splitMode == A
-    '''
+    """
     ### Initialized Takenizer ### 
     mode = t.Tokenizer.SplitMode.A
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
@@ -21,12 +21,12 @@ def hyokaArray_trans(text:str) -> list:
     # surface()+part_of_speech() -> (表層形 + 品詞情報[例:動詞/五段活用/さ変可能]) 
 
 def list_difference(list1:list, list2:list) -> list:
-    '''
+    """
     #配列差分出力関数
     #list1にあって、list2にない要素を出力
     #list1に重複{2つ同じ要素}があったら、2つとカウント。
     #list2に同一要素が1つだとしたら、1つだけ出力される
-    '''
+    """
     result = list1.copy()
     for value in list2:
         if value in result:
@@ -34,11 +34,11 @@ def list_difference(list1:list, list2:list) -> list:
     return result
 
 def translate_hyoka(oitama:str, answer:str ,option:int) -> list:
-    '''
+    """
     hyokaOption == 0 ->置換のみ手法
     hyokaOption == 1 -> 脳筋Option(格助詞の確立的はめ込み)
     #return [answer:str,oitama:str,result:str,fScore:float,bleuScore:float]
-    '''
+    """
     #置賜弁をここで標準語に翻訳
     result = translate.replacement(oitama,option)
 

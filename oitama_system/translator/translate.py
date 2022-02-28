@@ -7,9 +7,9 @@ from translator import option as op
 # Qsudachidict_full優先 dict="full"
 
 def replacement(text:str,option:int):
-    '''
+    """
     #入力された文章を,SudachiDictとUserDictで翻訳
-    '''
+    """
     #ユーザー辞書のパスを宣言
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     #ユーザー辞書の使用を宣言

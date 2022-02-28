@@ -5,7 +5,7 @@ from statistics import mean
 from hyoka import hyoka_trans as ht
 
 def addDropedWord(text:str) -> str:
-    '''
+    """
     欠落語補完機能
     名詞,形容詞が連続した場合,間に「が」を入れることで「が」の欠落を補完
     名詞,動詞が連続した場合,間に「に」を入れることで「に(さ)」の欠落を補完
@@ -16,7 +16,7 @@ def addDropedWord(text:str) -> str:
     yamagata custom = {'が':23.42,'を':25.73,'の':2.31,'は':48.53} ->4kjs
     {'が':71.95,'を':25.73,'の':2.32} -> 3kjs
 
-    '''
+    """
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     tokenizer_obj = d.Dictionary(config_path=config_path_link).create() 
     mode = t.Tokenizer.SplitMode.C
@@ -41,10 +41,10 @@ def addDropedWord(text:str) -> str:
     return wordOutput
 
 def manytimeFscore(text1:str,text2:str,n:int):
-    '''
+    """
     何度もランダム格助詞補完法を実施し、その平均を取る
     一番精度が高かった値をreturn
-    '''
+    """
     arr = []
     for k in range(1,n+1):
         if not ht.translate_hyoka(text1,text2,1)[3] == None:

@@ -2,9 +2,9 @@ from sudachipy import tokenizer as t
 from sudachipy import dictionary as d
 
 def sudachionlyWakachi(text:str) -> list:
-    '''
+    """
     sudachi_dictだけでの分割
-    '''
+    """
     hyokaArrayonly = []
     mode = t.Tokenizer.SplitMode.A
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
@@ -15,9 +15,9 @@ def sudachionlyWakachi(text:str) -> list:
     return hyokaArrayonly
 
 def sudachiOitamaWakachi(text:str) -> list:
-    '''
+    """
     sudachi_dictとOitama_dictでの分割
-    '''
+    """
     outputArray = []
     mode = t.Tokenizer.SplitMode.A
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
@@ -28,10 +28,10 @@ def sudachiOitamaWakachi(text:str) -> list:
     return outputArray
 
 def hyoka(result:list,answer:list) -> list:
-    '''
+    """
     fig.8-1:
     return result,answer,precision,recall,Fscore
-    '''
+    """
     correct = 0
     result_index = 0
     answer_index = 0
@@ -66,9 +66,9 @@ def hyoka(result:list,answer:list) -> list:
         return result,answer,precision ,recall ,Fscore
 
 def canmaBunkatsu(text:str) -> list:
-    '''
+    """
     ,分割
-    '''
+    """
     outputArray = text.split(',')
     return outputArray
 

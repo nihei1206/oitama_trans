@@ -1,7 +1,8 @@
 # このファイルは、mainとしてどの関数を実行するかCLI上で選べる程度の機能のみつける
 import make_figure as mf ,make_csv as mc
 
-def choice(number):
+def choice(number:int):
+    
     if number == 0:
         # split_hyoka()
         mc.make_csv_split()
