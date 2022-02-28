@@ -16,6 +16,7 @@ def replacement(text:str,option:int):
     tokenizer_obj = d.Dictionary(config_path=config_path_link).create() 
     mode = t.Tokenizer.SplitMode.C
     combinedExchangeHogen = []
+    combinedExchangeHogentext = ''
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
         if m.part_of_speech()[5] == '方言':
@@ -23,11 +24,11 @@ def replacement(text:str,option:int):
         else:
             combinedExchangeHogen.append(m.surface())
 
-    combinedExchangeHogentext = ''
     if option == 0:
         combinedExchangeHogentext = "".join(combinedExchangeHogen)
         return combinedExchangeHogentext
-    if option == 1:
+    elif option == 1:
         #欠落の格助詞補完
+        combinedExchangeHogentext = "".join(combinedExchangeHogen)
         translatedOutput = op.addDropedWord(combinedExchangeHogentext)
         return translatedOutput
