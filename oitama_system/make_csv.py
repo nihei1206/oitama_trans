@@ -100,8 +100,6 @@ def make_csv_translate(n_time:int):
         adMF.append(manytime[0])
         adMF.append(manytime[1])
         outputArray.append(adMF)
-
-    print(outputArray)
         # np.pi*np.pi
         # adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
         # adMF.append(translaterOitamaOption(inputArray[i][1],tokenizer_obj))
