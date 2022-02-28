@@ -1,10 +1,8 @@
 from sudachipy import tokenizer
 from sudachipy import dictionary
-from collections import Counter
-from fractions import Fraction
-from tqdm import tqdm
-import numpy as np
 import random
+from statistics import mean
+from hyoka import hyoka_trans as ht
 
 def addDropedWord(text:str) -> str:
     '''
@@ -41,3 +39,17 @@ def addDropedWord(text:str) -> str:
         wordCombine.append(wordPartofspeech[k][0])
     wordOutput = "".join(wordCombine)
     return wordOutput
+
+def manytimeFscore(text1:str,text2:str,n:int):
+    '''
+    何度もランダム格助詞補完法を実施し、その平均を取る
+    一番精度が高かった値をreturn
+    '''
+    arr = []
+    for k in range(1,n+1):
+        if not ht.translate_hyoka(text1,text2,1)[3] == None:
+            arr.append(ht.translate_hyoka(text1,text2,1)[3])
+    max_ = [i for i, v in enumerate(arr) if v == max(arr)]
+    maxtimesIndex = int(mean(max_))
+    maxArr = float(max(arr))
+    return maxArr,maxtimesIndex

@@ -1,28 +1,25 @@
 # このファイルは、mainとしてどの関数を実行するかCLI上で選べる程度の機能のみつける
-import makefigure
-from hyoka import hyoka_trans,hyoka_split
+import make_figure as mf ,make_csv as mc
 
 def choice(number):
     if number == 0:
-        # hyoka()
+        # split_hyoka()
         print('start hyoka def')
         i = int(input())
         print(i)
-        hyoka_split.importArrayfromCSV_then_do()
+        mc.make_csv_split()
 
     elif number == 1:
-        # translate()
+        # translate_hyoka()
         print('start translate def')
         print('what option you use')
         print('0:Base','1:格助詞補完')
         option = int(input())
         if not (option == 0 or option == 1):
             exit()
-        print(option)
-
         print('何回ぶん回しますか?')
         n = int(input())
-        hyoka_trans.importArrayfromCSV_then_do(n)
+        mc.make_csv_translate(n,option)
 
     elif number == 2:
         # makefig()
@@ -36,7 +33,10 @@ def choice(number):
             dataname = str('Translator')
         print('input bins')
         bins = int(input())
-        makefigure.selectFigType(dataname,dataType,bins)
+        print('title of histgram')
+        title = str(input())
+
+        mf.selectFigType(dataname,dataType,bins,title)
     else:
         exit()
 

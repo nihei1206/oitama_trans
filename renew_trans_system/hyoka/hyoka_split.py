@@ -1,23 +1,8 @@
-import re
 from turtle import update
 from sudachipy import tokenizer
 from sudachipy import dictionary
 from nltk.util import ngrams
 from nltk import bleu_score
-import collections
-import copy
-import math
-import sys
-import warnings
-from collections import Counter
-from fractions import Fraction
-import time
-import csv
-import pprint
-import datetime
-from tqdm import tqdm
-import numpy as np
-from statistics import mean
 
 def sudachionlyWakachi(text:str) -> list:
     '''
@@ -90,62 +75,4 @@ def canmaBunkatsu(text:str) -> list:
     outputArray = text.split(',')
     return outputArray
 
-def average(array:list) -> list:
-    seido_arr = []
-    saigen_arr = []
-    fscore_arr = []
 
-    for i in range(len(array)):
-        seido_arr.append(array[i][2])
-        saigen_arr.append(array[i][3])
-        fscore_arr.append(array[i][4])
-    seido_ave = mean(seido_arr)
-    saigen_ave = mean(saigen_arr)
-    f_ave = mean(fscore_arr)
-    return '平均',None,seido_ave,saigen_ave,f_ave
-
-def importArrayfromCSV_then_do() -> str:
-    '''
-    #csvのimportからcsvのoutputまでやりたい処理をすべて詰め込みました
-    #実行時間の確認もできます
-    '''
-
-    start = time.time()
-    with open('./auto_evaluation.csv') as f:
-        reader = csv.reader(f)
-        inputArray = [row for row in reader]
-        outputArray = []
-        for i in tqdm(range(1,len(inputArray))):
-            np.pi*np.pi
-            outputArray.append(hyoka(sudachiOitamaWakachi(inputArray[i][1]),canmaBunkatsu(inputArray[i][2])))
-        
-        outputArray.append(average(outputArray))
-
-        header = ['result','answer','seido','saigen','Fscore']
-        dt_now = datetime.datetime.now()
-        with open('./outputCSV/Bunkatsu_OitamaDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
- 
-            writer = csv.writer(f)
-            writer.writerow(header)
-            writer.writerows(outputArray)
-
-        f.close()
-        
-        outputArray = []
-        for i in tqdm(range(1,len(inputArray))):
-            np.pi*np.pi
-            outputArray.append(hyoka(sudachionlyWakachi(inputArray[i][1]),canmaBunkatsu(inputArray[i][2])))
-
-        outputArray.append(average(outputArray))
-        header = ['result','answer','seido','saigen','Fscore']
-        dt_now = datetime.datetime.now()
-        with open('./outputCSV/Bunkatsu_sudachiDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
- 
-            writer = csv.writer(f)
-            writer.writerow(header)
-            writer.writerows(outputArray)
-
-        f.close()
-        elapsed_time = time.time() - start
-
-        return print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
