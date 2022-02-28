@@ -26,10 +26,10 @@ def choice(number):
         print('start makefig def')
         print('split(s) or trans(t)')
         dataType = str(input())
-        if dataType == 'split' or dataType == 's':
+        if dataType == 's':
             print('Oitama or Sudachi')
             dataname = str(input())
-        elif dataType == 'trans' or dataType == 't':
+        elif dataType == 't':
             dataname = str('Translator')
         print('input bins')
         bins = int(input())

@@ -1,5 +1,5 @@
-from sudachipy import tokenizer
-from sudachipy import dictionary
+from sudachipy import tokenizer as t
+from sudachipy import dictionary as d
 import random
 from statistics import mean
 from hyoka import hyoka_trans as ht
@@ -18,8 +18,8 @@ def addDropedWord(text:str) -> str:
 
     '''
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link).create() 
-    mode = tokenizer.Tokenizer.SplitMode.C
+    tokenizer_obj = d.Dictionary(config_path=config_path_link).create() 
+    mode = t.Tokenizer.SplitMode.C
     tokens = tokenizer_obj.tokenize(text,mode)
     wordPartofspeech = []
     wordCombine = []

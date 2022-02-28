@@ -1,14 +1,14 @@
-from sudachipy import tokenizer
-from sudachipy import dictionary
+from sudachipy import tokenizer as t
+from sudachipy import dictionary as d
 
 def sudachionlyWakachi(text:str) -> list:
     '''
     sudachi_dictだけでの分割
     '''
     hyokaArrayonly = []
-    mode = tokenizer.Tokenizer.SplitMode.A
+    mode = t.Tokenizer.SplitMode.A
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
+    tokenizer_obj = d.Dictionary(config_path=config_path_link,dict="full").create()
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
         hyokaArrayonly.append(m.surface())
@@ -19,9 +19,9 @@ def sudachiOitamaWakachi(text:str) -> list:
     sudachi_dictとOitama_dictでの分割
     '''
     outputArray = []
-    mode = tokenizer.Tokenizer.SplitMode.A
+    mode = t.Tokenizer.SplitMode.A
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
+    tokenizer_obj = d.Dictionary(config_path=config_path_link,dict="full").create()
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
         outputArray.append(m.surface())

@@ -1,18 +1,18 @@
-from sudachipy import tokenizer
-from sudachipy import dictionary
-from nltk.util import ngrams
-from nltk import bleu_score
+from sudachipy import tokenizer as t
+from sudachipy import dictionary as d
+# from nltk.util import ngrams
+from nltk import bleu_score as bs
 from translator import translate
 
-def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
+def hyokaArray_trans(text:str,tokenizer_obj:t.Tokenizer) -> list:
     '''
     #入力された文章を,評価するための配列にsudachidictのみでわかち書き
     #splitMode == A
     '''
     ### Initialized Takenizer ### 
-    mode = tokenizer.Tokenizer.SplitMode.A
+    mode = t.Tokenizer.SplitMode.A
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
+    tokenizer_obj = d.Dictionary(config_path=config_path_link,dict="full").create()
     hyokaArray = []
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
@@ -40,13 +40,13 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
     '''
     #置賜弁をここで標準語に翻訳
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
+    tokenizer_obj = d.Dictionary(config_path=config_path_link,dict="full").create()
     
     result = translate.replacement(oitama,tokenizer_obj,hyokaOption)
 
     # 変換後なので,ここからuserDictの不使用 => sudachiDict(full)のみの使用を宣言
     # config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
-    tokenizer_obj = dictionary.Dictionary(dict="full").create() 
+    tokenizer_obj = d.Dictionary(dict="full").create() 
     #Sudachidict_full優先 dict="full"
 
     #result:置賜弁を翻訳した結果
@@ -78,7 +78,7 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
     # print(bleu_score.sentence_bleu([resultHyokaArray],answerHyokaArray,smoothing_function=bleu_score.SmoothingFunction().method7))
     # weights = (1./5., 1./5., 1./5., 1./5., 1./5.)
     # ngramの重み->weights これは連続するtokenの比較を行うんだけど、そのn連続という意味
-    bleuScore = bleu_score.sentence_bleu([resultHyokaArray],answerHyokaArray,smoothing_function=bleu_score.SmoothingFunction().method7)
+    bleuScore = bs.sentence_bleu([resultHyokaArray],answerHyokaArray,smoothing_function=bs.SmoothingFunction().method7)
 
     if bleuScore == 0:
         bleuScore = None

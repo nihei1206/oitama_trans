@@ -1,5 +1,5 @@
-from sudachipy import tokenizer
-from sudachipy import dictionary
+from sudachipy import tokenizer as t
+from sudachipy import dictionary as d
 import option as op
 
 ### Initialized Takenizer ### 
@@ -13,8 +13,8 @@ def replacement(text:str,option:int):
     #ユーザー辞書のパスを宣言
     config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     #ユーザー辞書の使用を宣言
-    tokenizer_obj = dictionary.Dictionary(config_path=config_path_link).create() 
-    mode = tokenizer.Tokenizer.SplitMode.C
+    tokenizer_obj = d.Dictionary(config_path=config_path_link).create() 
+    mode = t.Tokenizer.SplitMode.C
     combinedExchangeHogen = []
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
