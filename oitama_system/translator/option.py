@@ -17,7 +17,7 @@ def addDropedWord(text:str) -> str:
     {'が':71.95,'を':25.73,'の':2.32} -> 3kjs
 
     '''
-    config_path_link = "./lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
+    config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     tokenizer_obj = dictionary.Dictionary(config_path=config_path_link).create() 
     mode = tokenizer.Tokenizer.SplitMode.C
     tokens = tokenizer_obj.tokenize(text,mode)

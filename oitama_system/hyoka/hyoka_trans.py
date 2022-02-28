@@ -11,7 +11,7 @@ def hyokaArray_trans(text:str,tokenizer_obj:tokenizer.Tokenizer) -> list:
     '''
     ### Initialized Takenizer ### 
     mode = tokenizer.Tokenizer.SplitMode.A
-    config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
+    config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
     tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
     hyokaArray = []
     tokens = tokenizer_obj.tokenize(text,mode)
@@ -39,7 +39,7 @@ def translate_hyoka(oitama:str, answer:str , hyokaOption:int) -> list:
     #return [answer:str,oitama:str,result:str,fScore:float,bleuScore:float]
     '''
     #置賜弁をここで標準語に翻訳
-    config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
+    config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
     
     result = translate.replacement(oitama,tokenizer_obj,hyokaOption)

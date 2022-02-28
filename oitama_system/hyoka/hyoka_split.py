@@ -7,7 +7,7 @@ def sudachionlyWakachi(text:str) -> list:
     '''
     hyokaArrayonly = []
     mode = tokenizer.Tokenizer.SplitMode.A
-    config_path_link = "lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
+    config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/notuse_resources/sudachi.json"
     tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:
@@ -20,7 +20,7 @@ def sudachiOitamaWakachi(text:str) -> list:
     '''
     outputArray = []
     mode = tokenizer.Tokenizer.SplitMode.A
-    config_path_link = "lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
+    config_path_link = "../lib/python3.9/site-packages/sudachipy/resources/sudachi.json"
     tokenizer_obj = dictionary.Dictionary(config_path=config_path_link,dict="full").create()
     tokens = tokenizer_obj.tokenize(text,mode)
     for m in tokens:

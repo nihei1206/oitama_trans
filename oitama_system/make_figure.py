@@ -22,7 +22,7 @@ def makeFig(array, data_name:str,bins:int,sub_name,title:str):
     plt.yticks(np.arange(0, 22, 2),fontsize=32, fontweight = 'bold',color = 'k')
 
     dt_now = datetime.datetime.now()
-    plt.savefig("./outputFig/" +str(data_name) + str(sub_name)+ dt_now.strftime('%H%M%S'))
+    plt.savefig("../outputFig/" +str(data_name) + str(sub_name)+ dt_now.strftime('%H%M%S'))
     plt.show()
     
     return "Done! " + str(data_name) + str(sub_name)+ ": median is " + str(median) +  " / Ave is " + str(ave)
@@ -33,7 +33,7 @@ def selectFigType(dataname,dataType,bins,title):
     '''
     print('input import file name')
     imported_csvname = str(input())
-    with open("./outputCSV/" + imported_csvname) as f:
+    with open("../outputCSV/" + imported_csvname) as f:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
     f.close()

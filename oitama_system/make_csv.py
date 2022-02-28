@@ -38,7 +38,7 @@ def make_csv_split() -> str:
     '''
 
     start = time.time()
-    with open('./auto_evaluation.csv') as f:
+    with open('../auto_evaluation.csv') as f:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
     f.close()
@@ -52,7 +52,7 @@ def make_csv_split() -> str:
 
     header = ['result','answer','seido','saigen','Fscore']
     dt_now = datetime.datetime.now()
-    with open('./outputCSV/Bunkatsu_OitamaDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
+    with open('../outputCSV/Bunkatsu_OitamaDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
 
         writer = csv.writer(f)
         writer.writerow(header)
@@ -68,7 +68,7 @@ def make_csv_split() -> str:
     outputArray.append(average_output(outputArray,0))
     header = ['result','answer','seido','saigen','Fscore']
     dt_now = datetime.datetime.now()
-    with open('./outputCSV/Bunkatsu_sudachiDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
+    with open('../outputCSV/Bunkatsu_sudachiDict'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
 
         writer = csv.writer(f)
         writer.writerow(header)
@@ -85,7 +85,7 @@ def make_csv_translate(n_time,option:int):
     '''
 
     start = time.time()
-    with open('./auto_evaluation.csv') as f:
+    with open('../auto_evaluation.csv') as f:
         reader = csv.reader(f)
         inputArray = [row for row in reader]
     f.close()
@@ -107,7 +107,7 @@ def make_csv_translate(n_time,option:int):
     # for_plot_array
     header = ['oitama','result','answer','fScore','bleuscore','option_result','opt_Arr_max','maxtimesIndex']
     dt_now = datetime.datetime.now()
-    with open('./outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
+    with open('../outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
 
         writer = csv.writer(f)
         writer.writerow(header)
