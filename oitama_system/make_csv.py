@@ -8,7 +8,10 @@ from translator import translate as tr,option as op
 from hyoka import hyoka_trans as ht,hyoka_split as hs
 
 def average_output(array:list,option:int) -> list:
-    # option 0 => for split evaluate CSV
+    """
+    option 0 => for split evaluate CSV
+    option 1 => for translate evaluate CSV
+    """
     if option == 0:
         seido_arr = []
         saigen_arr = []
@@ -23,7 +26,6 @@ def average_output(array:list,option:int) -> list:
         return '平均',None,seido_ave,saigen_ave,f_ave
     
     if option == 1:
-        # option 1 => for translate evaluate CSV
         numarr = np.array(array).transpose()
         f_ave = mean(numarr[3])
         f_op_ave = mean(numarr[6])
