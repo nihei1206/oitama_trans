@@ -20,6 +20,15 @@ def hyokaArray_trans(text:str) -> list:
     return hyokaArray
     # surface()+part_of_speech() -> (表層形 + 品詞情報[例:動詞/五段活用/さ変可能]) 
 
+
+def bleu_score(resultHyokaArray,answerHyokaArray):
+    bleuScore = bs.sentence_bleu([resultHyokaArray],answerHyokaArray,smoothing_function=bs.SmoothingFunction().method7)
+    if bleuScore == 0:
+        return None
+    else:
+        bleuScore = float(bleuScore)
+        return bleuScore
+
 def list_difference(list1:list, list2:list) -> list:
     """
     #配列差分出力関数
@@ -79,11 +88,8 @@ def translate_hyoka(oitama:str, answer:str ,option:int) -> list:
     # print(bleu_score.sentence_bleu([resultHyokaArray],answerHyokaArray,smoothing_function=bleu_score.SmoothingFunction().method7))
     # weights = (1./5., 1./5., 1./5., 1./5., 1./5.)
     # ngramの重み->weights これは連続するtokenの比較を行うんだけど、そのn連続という意味
-    bleuScore = bs.sentence_bleu([resultHyokaArray],answerHyokaArray,smoothing_function=bs.SmoothingFunction().method7)
+    bleuScore = bleu_score(resultHyokaArray,answerHyokaArray)
 
-    if bleuScore == 0:
-        bleuScore = None
     # input = (oitama:str , answer:str)
 
     return [oitama,result,answer,fScore,bleuScore]
-

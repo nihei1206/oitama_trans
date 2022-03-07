@@ -103,6 +103,8 @@ def make_csv_translate():
         manytime = op.manytimeFscore(inputArray[i][1],inputArray[i][0],n_time)
         adMF.append(manytime[0])
         adMF.append(manytime[1])
+        bleu = ht.bleu_score(adMF[5],adMF[2])
+        adMF.append(bleu)
         outputArray.append(adMF)
         # np.pi*np.pi
         # adMF = translate_hyoka(inputArray[i][1],inputArray[i][0],0)
@@ -112,7 +114,7 @@ def make_csv_translate():
     outputArray.append(average_output(outputArray,1))
 
     # for_plot_array
-    header = ['oitama','result','answer','fScore','bleuscore','option_result','opt_Arr_max','maxtimesIndex']
+    header = ['oitama','result','answer','fScore','bleuscore','option_result','opt_Arr_max_fscore','maxtimesIndex','option_bleu']
     dt_now = datetime.datetime.now()
     with open('../outputCSV/OitamaTrans'+ dt_now.strftime('%y%m%d-%H%M%S') +'.csv', 'w') as f:
 
