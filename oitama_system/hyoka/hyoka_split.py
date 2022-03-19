@@ -31,6 +31,8 @@ def hyoka(result:list,answer:list) -> list:
     """
     fig.8-1:
     return result,answer,precision,recall,Fscore
+    
+    このコードは、工藤 拓　著、形態素解析の理論と実装 (実践・自然言語処理シリーズ) にある分割評価をするC#で記述されたコードをPythonで書き直したものです。
     """
     correct = 0
     result_index = 0
