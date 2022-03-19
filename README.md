@@ -13,8 +13,8 @@
 
 ## 関連記事
 zennにてちょいと記事を書きました。
-https://zenn.dev/2timesbottle/articles/4c0f3a4ce26797
-https://zenn.dev/2timesbottle/articles/3349b79e827983
+- https://zenn.dev/2timesbottle/articles/4c0f3a4ce26797
+- https://zenn.dev/2timesbottle/articles/3349b79e827983
 
 友人も記事を書いてました
 https://zenn.dev/murakamixi/articles/2064967364fc81
