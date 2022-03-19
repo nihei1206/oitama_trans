@@ -37,4 +37,4 @@ mecab-unidic 2.1.2を参考にCSVを作る。
 
 ### 実行方法
 後輩向けに書いた引き継ぎ資料を載せたので、使う人は私のスパゲッティコードを解読して参考にする程度にしてください
-https://github.com/nihei1206/oitama_trans/blob/main/%E7%A0%94%E7%A9%B6%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8%E4%BD%BF%E3%81%84%E6%96%B9.pdf
+https://github.com/nihei1206/oitama_trans/blob/main/%E4%BD%BF%E3%81%84%E6%96%B9.pdf
