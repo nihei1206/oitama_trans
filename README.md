@@ -21,6 +21,10 @@ zennにてちょいと記事を書きました。
 友人も記事を書いてました
 https://zenn.dev/murakamixi/articles/2064967364fc81
 
+## メイン
+予稿　https://github.com/nihei1206/oitama_trans/blob/main/%E4%BA%88%E7%A8%BF_0213_%E6%8F%90%E5%87%BA%E7%89%88.pdf
+本稿 https://github.com/nihei1206/oitama_trans/blob/main/%E5%8D%92%E8%AB%96_Last1.1.pdf
+
 ## 使い方
 
 ### 準備するもの
